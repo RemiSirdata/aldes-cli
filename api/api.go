@@ -47,10 +47,12 @@ func (a *Aldes) auth(login string, password string) error {
 }
 
 func (a *Aldes) GetProducts() ([]Product, error) {
-
+	var products []Product
+	err := a.Get(&products, "/aldesoc/v2/users/me/products")
+	return products, err
 }
 
-func (a *Aldes) Get(model interface{}, path string, args []interface{}) error {
+func (a *Aldes) Get(model interface{}, path string, args ...interface{}) error {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(Endpoint+path, args...), nil)
 	if err != nil {
 		return err
